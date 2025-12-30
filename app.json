@@ -1,0 +1,10 @@
+{
+  "name": "DestinyXSparsh-Hosting",
+  "env": {
+    "API_ID": { "required": true },
+    "API_HASH": { "required": true },
+    "BOT_TOKEN": { "required": true },
+    "MONGO_URL": { "required": true },
+    "OWNER_ID": { "required": true }
+  }
+}
