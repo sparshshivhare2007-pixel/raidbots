@@ -3,37 +3,35 @@ from pyrogram import Client
 from config import Config
 from destinyxsparsh.database.db import get_all_sessions
 
-async def main():
-    # 1. Main Master Account ko start karna
-    master_bot = Client(
-        "MasterBot",
+async def start_bot():
+    # 1. Start Assistant Bot
+    bot = Client(
+        "Assistant",
         api_id=Config.API_ID,
         api_hash=Config.API_HASH,
-        session_string=Config.STRING_SESSION,
+        bot_token=Config.BOT_TOKEN,
         plugins=dict(root="destinyxsparsh/plugins")
     )
-    await master_bot.start()
-    print("✅ Master Bot Started!")
+    await bot.start()
+    print("✅ Assistant Bot Online!")
 
-    # 2. Database se saare saved sessions load karna
-    saved_sessions = await get_all_sessions()
-    for i, session in enumerate(saved_sessions):
+    # 2. Load all Userbots from Database
+    sessions = await get_all_sessions()
+    for sess in sessions:
         try:
-            extra_client = Client(
-                name=f"Userbot_{i}",
+            ubot = Client(
+                name=f"ubot_{sess[:10]}",
                 api_id=Config.API_ID,
                 api_hash=Config.API_HASH,
-                session_string=session,
-                plugins=dict(root="destinyxsparsh/plugins")
+                session_string=sess,
+                plugins=dict(root="destinyxsparsh/userbot_plugins")
             )
-            await extra_client.start()
-            print(f"✅ Extra Client {i+1} Started!")
+            await ubot.start()
+            print(f"✅ Userbot {ubot.me.first_name} Active!")
         except Exception as e:
-            print(f"❌ Could not start session {i+1}: {e}")
+            print(f"❌ Error loading session: {e}")
 
-    # Bot ko chalu rakhne ke liye
     await asyncio.Event().wait()
 
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    asyncio.run(start_bot())
