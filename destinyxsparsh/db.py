@@ -1,10 +1,7 @@
 from motor.motor_asyncio import AsyncIOMotorClient
-from config import Config
+import os
 
-if Config.MONGO_URL:
-    mongo = AsyncIOMotorClient(Config.MONGO_URL)
-    db = mongo.destinybot
-else:
-    db = None
-
-# Aap yahan users ya settings save karne ke functions likh sakte hain
+# Heroku Config Vars se Mongo URL uthayein
+MONGO_URL = os.getenv("MONGO_URL", "")
+db = AsyncIOMotorClient(MONGO_URL).DestinyDB
+sessions_col = db.sessions # Collection ka naam
