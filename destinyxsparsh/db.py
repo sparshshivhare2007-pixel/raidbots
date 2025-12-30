@@ -1,7 +1,20 @@
 from motor.motor_asyncio import AsyncIOMotorClient
-import os
+from config import Config
 
-# Heroku Config Vars se Mongo URL uthayein
-MONGO_URL = os.getenv("MONGO_URL", "")
-db = AsyncIOMotorClient(MONGO_URL).DestinyDB
-sessions_col = db.sessions # Collection ka naam
+# Mongo setup
+client = AsyncIOMotorClient(Config.MONGO_URL)
+db = client.DestinyDB
+sessions_db = db.sessions
+
+async def add_session(user_id, session_str):
+    await sessions_db.update_one(
+        {"user_id": user_id},
+        {"$set": {"session": session_str}},
+        upsert=True
+    )
+
+async def get_all_sessions():
+    sessions = []
+    async for doc in sessions_db.find():
+        sessions.append(doc["session"])
+    return sessions
