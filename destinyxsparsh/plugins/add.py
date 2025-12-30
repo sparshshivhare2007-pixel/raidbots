@@ -1,34 +1,21 @@
 from pyrogram import Client, filters
-from destinyxsparsh.database.db import add_session
+from destinyxsparsh.database.db import add_session_to_db
+from config import Config
 
-@Client.on_message(filters.command("add", ".") & filters.me)
-async def add_userbot(client, message):
+@Client.on_message(filters.command("add") & filters.user(Config.OWNER_ID))
+async def add_session(client, message):
     if len(message.command) < 2:
-        return await message.edit("❌ **Usage:** `.add [string_session]`")
+        return await message.reply("❌ **Format:** `/add [string_session]`")
 
-    string_session = message.text.split(None, 1)[1]
-    status_msg = await message.edit("⏳ **Checking Session...**")
+    session_str = message.text.split(None, 1)[1]
+    wait = await message.reply("⏳ **Connecting Userbot...**")
 
     try:
-        # Check karne ke liye ek naya temporary client
-        temp_client = Client(
-            name="temp_client",
-            api_id=client.api_id,
-            api_hash=client.api_hash,
-            session_string=string_session
-        )
-        
-        await temp_client.start()
-        me = await temp_client.get_me()
-        
-        # Database mein save karna
-        await add_session(me.id, string_session)
-        
-        await status_msg.edit(f"✅ **Account Added Successfully!**\n👤 **Name:** {me.first_name}\n🆔 **ID:** {me.id}")
-        
-        # Note: Naye account ko activate karne ke liye bot restart karna padega 
-        # ya dynamic loading code likhna hoga.
-        await temp_client.stop()
-
+        new_ub = Client("temp", api_id=Config.API_ID, api_hash=Config.API_HASH, session_string=session_str)
+        await new_ub.start()
+        user = await new_ub.get_me()
+        await add_session_to_db(user.id, session_str)
+        await wait.edit(f"✅ **{user.first_name}** is now a live Userbot!")
+        # Restart is usually needed to load plugins for new client
     except Exception as e:
-        await status_msg.edit(f"❌ **Error:** `{e}`")
+        await wait.edit(f"❌ **Error:** `{e}`")
