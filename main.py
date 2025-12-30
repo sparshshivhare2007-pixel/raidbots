@@ -1,5 +1,5 @@
 import asyncio
-from pyrogram import Client
+from pyrogram import Client, idle
 from config import Config
 from destinyxsparsh.database.db import get_all_sessions
 
@@ -12,6 +12,7 @@ async def start_bot():
         bot_token=Config.BOT_TOKEN,
         plugins=dict(root="destinyxsparsh/plugins")
     )
+    
     await bot.start()
     print("✅ Assistant Bot Online!")
 
@@ -31,7 +32,15 @@ async def start_bot():
         except Exception as e:
             print(f"❌ Error loading session: {e}")
 
-    await asyncio.Event().wait()
+    # Bot ko chalu rakhne ke liye idle use karein
+    await idle()
+    
+    # Jab bot stop ho toh saare connections band karein
+    await bot.stop()
 
 if __name__ == "__main__":
-    asyncio.run(start_bot())
+    # Modern way to run asyncio in Python 3.10+
+    try:
+        asyncio.run(start_bot())
+    except KeyboardInterrupt:
+        pass
