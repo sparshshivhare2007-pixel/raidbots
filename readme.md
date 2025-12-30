@@ -23,7 +23,7 @@ A powerful Telegram Multi-Session Userbot manager that allows you to host multip
 ### 2. Deploy to Heroku
 Click the button below to deploy directly to Heroku:
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/sparshshivhare2007-pixel/raidbots)
 
 > **Note:** Replace `YOUR_GITHUB_USERNAME/YOUR_REPO_NAME` in the link above with your actual GitHub details.
 
