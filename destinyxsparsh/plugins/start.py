@@ -1,14 +1,14 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-@Client.on_message(filters.command("start") & filters.me)
+@Client.on_message(filters.command("start"))
 async def start_command(client, message):
-    image_url = "https://files.catbox.moe/gnzkrj.jpg" # Apni image ka link yahan dalein
+    image_url = "https://files.catbox.moe/gnzkrj.jpg"
     
     text = (
         "**🔥 DestinyXSparsh Userbot Active!**\n\n"
-        "Ye bot ab puri tarah setup hai.\n"
-        "Aap niche diye gaye buttons use kar sakte hain."
+        "Main aapka Assistant Bot hoon. Apne account ko Userbot banane ke liye niche di gayi command use karein:\n\n"
+        "➡️ `/add [String_Session]`"
     )
     
     buttons = InlineKeyboardMarkup([
@@ -21,7 +21,6 @@ async def start_command(client, message):
         ]
     ])
 
-    # Image ke sath message bhejna
     await client.send_photo(
         chat_id=message.chat.id,
         photo=image_url,
