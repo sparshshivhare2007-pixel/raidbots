@@ -3,7 +3,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 @Client.on_message(filters.command("start") & filters.me)
 async def start_command(client, message):
-    image_url = "https://example.com/your-image.jpg" # Apni image ka link yahan dalein
+    image_url = "https://files.catbox.moe/gnzkrj.jpg" # Apni image ka link yahan dalein
     
     text = (
         "**🔥 DestinyXSparsh Userbot Active!**\n\n"
@@ -13,11 +13,11 @@ async def start_command(client, message):
     
     buttons = InlineKeyboardMarkup([
         [
-            InlineKeyboardButton("Support Group", url="https://t.me/your_group"),
-            InlineKeyboardButton("Updates", url="https://t.me/your_channel")
+            InlineKeyboardButton("Support Group", url="https://t.me/PEACE_CHATTING_WORLD"),
+            InlineKeyboardButton("Updates", url="https://t.me/peaceXbots")
         ],
         [
-            InlineKeyboardButton("Owner", url="https://t.me/your_username")
+            InlineKeyboardButton("Owner", url="https://t.me/you")
         ]
     ])
 
